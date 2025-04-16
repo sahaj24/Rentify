@@ -879,6 +879,86 @@
                 });
             });
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Rent Now button functionality
+            const rentNowBtn = document.getElementById('rentNowBtn');
+            if (rentNowBtn) {
+                rentNowBtn.addEventListener('click', function() {
+                    // Get product details
+                    const productName = document.querySelector('.product-detail-info h1').textContent;
+                    const productPrice = document.querySelector('.product-price').textContent;
+                    
+                    // Get selected rental period
+                    const selectedPeriod = document.querySelector('input[name="rental-period"]:checked').value;
+                    let rentalPeriodText = '';
+                    switch(selectedPeriod) {
+                        case '1': rentalPeriodText = '1-day rental'; break;
+                        case '7': rentalPeriodText = '7-day rental'; break;
+                        case '30': rentalPeriodText = '30-day rental'; break;
+                        default: rentalPeriodText = '1-day rental';
+                    }
+                    
+                    // Save to localStorage for checkout page
+                    const cartItem = {
+                        name: productName,
+                        price: productPrice,
+                        period: rentalPeriodText,
+                        image: document.querySelector('.gallery-main-image img').src
+                    };
+                    
+                    // Save to cart
+                    let cart = JSON.parse(localStorage.getItem('rentifyCart')) || [];
+                    cart.push(cartItem);
+                    localStorage.setItem('rentifyCart', JSON.stringify(cart));
+                    
+                    // Redirect to checkout
+                    window.location.href = 'checkout.html';
+                });
+            }
+            
+            // Add to Cart button functionality
+            const addToCartBtn = document.getElementById('addToCartBtn');
+            if (addToCartBtn) {
+                addToCartBtn.addEventListener('click', function() {
+                    // Get product details
+                    const productName = document.querySelector('.product-detail-info h1').textContent;
+                    const productPrice = document.querySelector('.product-price').textContent;
+                    
+                    // Get selected rental period
+                    const selectedPeriod = document.querySelector('input[name="rental-period"]:checked').value;
+                    let rentalPeriodText = '';
+                    switch(selectedPeriod) {
+                        case '1': rentalPeriodText = '1-day rental'; break;
+                        case '7': rentalPeriodText = '7-day rental'; break;
+                        case '30': rentalPeriodText = '30-day rental'; break;
+                        default: rentalPeriodText = '1-day rental';
+                    }
+                    
+                    // Save to localStorage for checkout page
+                    const cartItem = {
+                        name: productName,
+                        price: productPrice,
+                        period: rentalPeriodText,
+                        image: document.querySelector('.gallery-main-image img').src
+                    };
+                    
+                    // Save to cart
+                    let cart = JSON.parse(localStorage.getItem('rentifyCart')) || [];
+                    cart.push(cartItem);
+                    localStorage.setItem('rentifyCart', JSON.stringify(cart));
+                    
+                    // Show confirmation message
+                    alert(`Added ${productName} to your cart!`);
+                    
+                    // Update cart count display if it exists
+                    const cartCount = document.getElementById('cart-count');
+                    if (cartCount) {
+                        cartCount.textContent = cart.length;
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html> 

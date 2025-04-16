@@ -258,12 +258,31 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // Save to localStorage
+        // Save to localStorage (original AI tools cart)
         try {
             localStorage.setItem('aiToolsCart', JSON.stringify(cart));
         } catch (error) {
             console.error('Error saving cart to localStorage:', error);
             showNotification('Could not save cart data', 'error');
+        }
+        
+        // ALSO save to the unified Rentify Cart format
+        try {
+            // Get existing Rentify cart
+            let rentifyCart = JSON.parse(localStorage.getItem('rentifyCart')) || [];
+            
+            // Add this item (using Rentify cart format)
+            rentifyCart.push({
+                name: tool.name,
+                price: tool.price,
+                period: '7-day rental', // Default rental period
+                image: tool.image
+            });
+            
+            // Save back to localStorage
+            localStorage.setItem('rentifyCart', JSON.stringify(rentifyCart));
+        } catch (error) {
+            console.error('Error saving to unified Rentify cart:', error);
         }
         
         // Update cart count
@@ -722,20 +741,23 @@ document.addEventListener('DOMContentLoaded', function() {
         showNotification('Item removed from cart');
     }
 
-    // Checkout functionality
+    // Checkout function - sends user to the checkout page
     function checkout() {
         if (cart.length === 0) {
             showNotification('Your cart is empty', 'error');
             return;
         }
         
-        // Simulate checkout process
-        showNotification('Processing your order...', 'success');
-        
-        // Redirect to payment page
-        setTimeout(() => {
-            window.location.href = 'payment.html';
-        }, 1500);
+        try {
+            // Keep existing cart format
+            localStorage.setItem('aiToolsCart', JSON.stringify(cart));
+            
+            // Navigate to the unified checkout page
+            window.location.href = 'checkout.html';
+        } catch (error) {
+            console.error('Error during checkout:', error);
+            showNotification('An error occurred during checkout', 'error');
+        }
     }
 
     // Compare tools functionality

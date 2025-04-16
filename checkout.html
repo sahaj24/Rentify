@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Rentify</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
+            --light-card: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --accent-color: #e50914;
+            --accent-hover: #bc0911;
+            --border-color: #333333;
+            --input-bg: #2a2a2a;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--dark-bg);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .main-header {
+            background-color: rgba(18, 18, 18, 0.95);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        
+        .logo h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            margin-left: 10px;
+        }
+        
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 8px;
+        }
+        
+        /* Checkout Container */
+        .checkout-container {
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        
+        .checkout-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .checkout-header h1 {
+            font-size: 2.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+        }
+        
+        .checkout-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Checkout Content */
+        .checkout-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        /* Cart Items */
+        .cart-items {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .cart-item {
+            display: flex;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .item-image {
+            width: 100px;
+            height: 100px;
+            background-color: var(--light-card);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 10px;
+        }
+        
+        .item-details {
+            flex-grow: 1;
+        }
+        
+        .item-details h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .item-details .item-category {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .rental-duration {
+            display: flex;
+            align-items: center;
+            color: var(--accent-color);
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .rental-duration i {
+            margin-right: 5px;
+        }
+        
+        .item-price {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .remove-item {
+            position: absolute;
+            top: 1.5rem;
+            right: 0;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .remove-item:hover {
+            color: var(--danger-color);
+        }
+        
+        /* Order Summary */
+        .order-summary {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            height: fit-content;
+        }
+        
+        .order-summary h2 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+        
+        .summary-item .label {
+            color: var(--text-secondary);
+        }
+        
+        .summary-total {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .proceed-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            margin-top: 1.5rem;
+            background-color: var(--accent-color);
+            border: none;
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+        
+        .proceed-btn:hover {
+            background-color: var(--accent-hover);
+        }
+        
+        .continue-shopping {
+            display: block;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .continue-shopping:hover {
+            color: var(--text-primary);
+        }
+        
+        /* Empty Cart */
+        .empty-cart {
+            text-align: center;
+            padding: 3rem;
+        }
+        
+        .empty-cart i {
+            font-size: 4rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .empty-cart h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-cart p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        
+        .browse-btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background-color: var(--accent-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        
+        .browse-btn:hover {
+            background-color: var(--accent-hover);
+        }
+        
+        @media (max-width: 768px) {
+            .checkout-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .cart-item {
+                flex-direction: column;
+            }
+            
+            .item-image {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .remove-item {
+                top: 1rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Logo.jpeg" alt="Rentify Logo" class="logo-image">
+                    <h1>Rentify</h1>
+                </a>
+            </div>
+            <div class="header-actions">
+                <button class="cart-toggle" id="cartToggle" aria-label="Open cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </button>
+                <button class="user-account" aria-label="User account" onclick="window.location.href='login.html'">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Checkout Container -->
+    <div class="checkout-container">
+        <div class="checkout-header">
+            <h1>Checkout</h1>
+            <p>Review your rental items before proceeding to payment</p>
+        </div>
+
+        <div class="checkout-content">
+            <!-- Cart Items -->
+            <div class="cart-items" id="cart-items-container">
+                <!-- This section will be populated with cart items via JavaScript -->
+                <!-- Example item structure: -->
+                <div class="cart-item">
+                    <div class="item-image">
+                        <img src="https://source.unsplash.com/random/100x100/?software" alt="Adobe Photoshop">
+                    </div>
+                    <div class="item-details">
+                        <h3>Adobe Photoshop</h3>
+                        <div class="item-category">Creative Software</div>
+                        <div class="rental-duration">
+                            <i class="fas fa-clock"></i> 7-day rental
+                        </div>
+                        <div class="item-price">$19.99</div>
+                    </div>
+                    <button class="remove-item">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="cart-item">
+                    <div class="item-image">
+                        <img src="https://source.unsplash.com/random/100x100/?software" alt="Adobe Illustrator">
+                    </div>
+                    <div class="item-details">
+                        <h3>Adobe Illustrator</h3>
+                        <div class="item-category">Creative Software</div>
+                        <div class="rental-duration">
+                            <i class="fas fa-clock"></i> 30-day rental
+                        </div>
+                        <div class="item-price">$39.99</div>
+                    </div>
+                    <button class="remove-item">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Empty Cart (will be shown/hidden via JavaScript) -->
+            <div class="cart-items empty-cart" id="empty-cart" style="display: none;">
+                <i class="fas fa-shopping-cart"></i>
+                <h2>Your cart is empty</h2>
+                <p>Looks like you haven't added any items to your cart yet.</p>
+                <a href="index.html" class="browse-btn">Browse Rentals</a>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="order-summary">
+                <h2>Order Summary</h2>
+                <div class="summary-item">
+                    <span class="label">Subtotal</span>
+                    <span class="value">$59.98</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Platform Fee</span>
+                    <span class="value">$3.99</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Tax</span>
+                    <span class="value">$6.40</span>
+                </div>
+                <div class="summary-total">
+                    <span>Total</span>
+                    <span>$70.37</span>
+                </div>
+                <button class="proceed-btn" id="proceed-to-payment">Proceed to Payment</button>
+                <a href="index.html" class="continue-shopping">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update cart count display
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) {
+                const cart = JSON.parse(localStorage.getItem('rentifyCart')) || [];
+                cartCount.textContent = cart.length;
+            }
+            
+            // Make cart toggle go to checkout page
+            const cartToggle = document.getElementById('cartToggle');
+            if (cartToggle) {
+                cartToggle.addEventListener('click', function() {
+                    window.location.href = 'checkout.html';
+                });
+            }
+            
+            // Get elements
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            const emptyCart = document.getElementById('empty-cart');
+            const orderSummary = document.querySelector('.order-summary');
+            const proceedToPaymentBtn = document.getElementById('proceed-to-payment');
+            
+            // Load cart from localStorage
+            const cart = JSON.parse(localStorage.getItem('rentifyCart')) || [];
+            
+            // Populate cart items from localStorage
+            function populateCartItems() {
+                // Clear existing items
+                cartItemsContainer.innerHTML = '';
+                
+                // Add each item to the cart
+                cart.forEach((item, index) => {
+                    const cartItemElement = document.createElement('div');
+                    cartItemElement.className = 'cart-item';
+                    cartItemElement.innerHTML = `
+                        <div class="item-image">
+                            <img src="${item.image || 'https://source.unsplash.com/random/100x100/?software'}" alt="${item.name}">
+                        </div>
+                        <div class="item-details">
+                            <h3>${item.name}</h3>
+                            <div class="item-category">Digital Rental</div>
+                            <div class="rental-duration">
+                                <i class="fas fa-clock"></i> ${item.period}
+                            </div>
+                            <div class="item-price">${item.price}</div>
+                        </div>
+                        <button class="remove-item" data-index="${index}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    cartItemsContainer.appendChild(cartItemElement);
+                });
+                
+                // Add event listeners to remove buttons
+                const removeButtons = document.querySelectorAll('.remove-item');
+                removeButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = this.getAttribute('data-index');
+                        removeItemFromCart(index);
+                    });
+                });
+            }
+            
+            // Remove item from cart
+            function removeItemFromCart(index) {
+                cart.splice(index, 1);
+                localStorage.setItem('rentifyCart', JSON.stringify(cart));
+                populateCartItems();
+                updateOrderSummary();
+                checkIfCartEmpty();
+            }
+            
+            // Check if cart is empty
+            function checkIfCartEmpty() {
+                if (cart.length === 0) {
+                    cartItemsContainer.style.display = 'none';
+                    emptyCart.style.display = 'block';
+                    orderSummary.style.display = 'none';
+                } else {
+                    cartItemsContainer.style.display = 'block';
+                    emptyCart.style.display = 'none';
+                    orderSummary.style.display = 'block';
+                }
+            }
+            
+            // Update order summary
+            function updateOrderSummary() {
+                let subtotal = 0;
+                
+                // Calculate subtotal from cart items
+                cart.forEach(item => {
+                    const price = parseFloat(item.price.replace(/[^0-9.]/g, ''));
+                    subtotal += price;
+                });
+                
+                const platformFee = 3.99;
+                const tax = subtotal * 0.1; // Assume 10% tax
+                const total = subtotal + platformFee + tax;
+                
+                document.querySelector('.summary-item:nth-child(1) .value').textContent = `$${subtotal.toFixed(2)}`;
+                document.querySelector('.summary-item:nth-child(3) .value').textContent = `$${tax.toFixed(2)}`;
+                document.querySelector('.summary-total span:nth-child(2)').textContent = `$${total.toFixed(2)}`;
+            }
+            
+            // Proceed to payment
+            proceedToPaymentBtn.addEventListener('click', function() {
+                // Save order summary to localStorage for payment page
+                const summary = {
+                    subtotal: document.querySelector('.summary-item:nth-child(1) .value').textContent,
+                    platformFee: document.querySelector('.summary-item:nth-child(2) .value').textContent,
+                    tax: document.querySelector('.summary-item:nth-child(3) .value').textContent,
+                    total: document.querySelector('.summary-total span:nth-child(2)').textContent
+                };
+                localStorage.setItem('rentifyOrderSummary', JSON.stringify(summary));
+                
+                // Redirect to payment page
+                window.location.href = 'payment.html';
+            });
+            
+            // Initialize
+            populateCartItems();
+            updateOrderSummary();
+            checkIfCartEmpty();
+        });
+    </script>
+</body>
+</html> 

@@ -422,6 +422,102 @@
                 const price = parseFloat(priceStr.replace('$', '').replace('/day', ''));
                 return `$${(price * multiplier).toFixed(2)}/day`;
             }
+            
+            // Add to cart function
+            function addToCart(index) {
+                const product = products[index];
+                
+                // Get selected rental duration
+                const rentalDuration = document.querySelector('input[name="rental-duration"]:checked').value;
+                let rentalPeriodText = '';
+                let price = product.price;
+                
+                switch(rentalDuration) {
+                    case '1': 
+                        rentalPeriodText = '1-day rental'; 
+                        price = product.price; 
+                        break;
+                    case '3': 
+                        rentalPeriodText = '3-day rental'; 
+                        price = calculatePrice(product.price, 2.5); 
+                        break;
+                    case '6': 
+                        rentalPeriodText = '6-day rental'; 
+                        price = calculatePrice(product.price, 5); 
+                        break;
+                    default: 
+                        rentalPeriodText = '1-day rental';
+                }
+                
+                // Create cart item
+                const cartItem = {
+                    name: product.name,
+                    price: price,
+                    period: rentalPeriodText,
+                    image: product.image
+                };
+                
+                // Add to cart
+                let cart = JSON.parse(localStorage.getItem('rentifyCart')) || [];
+                cart.push(cartItem);
+                localStorage.setItem('rentifyCart', JSON.stringify(cart));
+                
+                // Show confirmation message
+                alert(`Added ${product.name} to your cart!`);
+                
+                // Update cart count display if it exists
+                const cartCount = document.getElementById('cart-count');
+                if (cartCount) {
+                    cartCount.textContent = cart.length;
+                }
+                
+                // Close modal
+                const modal = document.getElementById('productModal');
+                modal.style.display = 'none';
+            }
+            
+            // Rent now function
+            function rentNow(index) {
+                const product = products[index];
+                
+                // Get selected rental duration
+                const rentalDuration = document.querySelector('input[name="rental-duration"]:checked').value;
+                let rentalPeriodText = '';
+                let price = product.price;
+                
+                switch(rentalDuration) {
+                    case '1': 
+                        rentalPeriodText = '1-day rental'; 
+                        price = product.price; 
+                        break;
+                    case '3': 
+                        rentalPeriodText = '3-day rental'; 
+                        price = calculatePrice(product.price, 2.5); 
+                        break;
+                    case '6': 
+                        rentalPeriodText = '6-day rental'; 
+                        price = calculatePrice(product.price, 5); 
+                        break;
+                    default: 
+                        rentalPeriodText = '1-day rental';
+                }
+                
+                // Create cart item
+                const cartItem = {
+                    name: product.name,
+                    price: price,
+                    period: rentalPeriodText,
+                    image: product.image
+                };
+                
+                // Add to cart
+                let cart = JSON.parse(localStorage.getItem('rentifyCart')) || [];
+                cart.push(cartItem);
+                localStorage.setItem('rentifyCart', JSON.stringify(cart));
+                
+                // Redirect to checkout
+                window.location.href = 'checkout.html';
+            }
         });
     </script>
 </body>

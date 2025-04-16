@@ -102,7 +102,36 @@ document.addEventListener('DOMContentLoaded', function() {
       addToCartBtn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        const productName = card.querySelector('.product-title').textContent;
+        
+        // Get product details
+        const productName = card.querySelector('.product-title')?.textContent || 
+                          card.querySelector('h3')?.textContent || 
+                          'Product';
+        const productPrice = card.querySelector('.price')?.textContent || 
+                           card.querySelector('.product-price')?.textContent || 
+                           '$19.99';
+        const productImage = card.querySelector('img')?.src || 
+                           'https://source.unsplash.com/random/100x100/?software';
+        
+        // Save to localStorage for checkout page
+        const cartItem = {
+            name: productName,
+            price: productPrice,
+            period: '7-day rental', // Default rental period
+            image: productImage
+        };
+        
+        // Add to cart
+        let cart = JSON.parse(localStorage.getItem('rentifyCart')) || [];
+        cart.push(cartItem);
+        localStorage.setItem('rentifyCart', JSON.stringify(cart));
+        
+        // Update cart count display
+        const cartCount = document.getElementById('cart-count');
+        if (cartCount) {
+            cartCount.textContent = cart.length;
+        }
+        
         alert(`Added ${productName} to your cart!`);
       });
     }
@@ -197,16 +226,75 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Rent button click
-  const rentButtons = document.querySelectorAll('.rent-button');
-  rentButtons.forEach(button => {
-    button.addEventListener('click', function(e) {
-      e.preventDefault();
-      const productName = this.closest('.product-card').querySelector('.product-title').textContent;
-      alert(`You have selected to rent: ${productName}. Redirecting to product details.`);
-      window.location.href = 'product-details.html';
+  // Update cart count on page load
+  const updateCartCount = () => {
+    const cartCount = document.getElementById('cart-count');
+    if (cartCount) {
+      const cart = JSON.parse(localStorage.getItem('rentifyCart')) || [];
+      cartCount.textContent = cart.length;
+    }
+  };
+  
+  // Call this when page loads
+  updateCartCount();
+  
+  // Universal Rent Button Functionality
+  function setupRentButtons() {
+    // Rent button click for all types of rent buttons
+    const rentButtons = document.querySelectorAll('.rent-button, .rent-btn, .rent-now, .rent-now-btn');
+    
+    rentButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Find the product container (might be a card, div, or other element)
+        const productContainer = this.closest('.product-card') || 
+                                this.closest('.game-card') || 
+                                this.closest('.tool-card') || 
+                                this.closest('.product-item') ||
+                                this.closest('article') || 
+                                this.closest('section');
+        
+        // Get product details
+        let productName = 'Software Subscription';
+        let productPrice = '$19.99';
+        let productImage = 'https://source.unsplash.com/random/100x100/?software';
+        
+        // Try to extract product information from different possible HTML structures
+        if (productContainer) {
+          productName = productContainer.querySelector('.product-title')?.textContent || 
+                        productContainer.querySelector('h3')?.textContent || 
+                        productContainer.querySelector('h2')?.textContent || 
+                        productName;
+                        
+          productPrice = productContainer.querySelector('.price')?.textContent || 
+                         productContainer.querySelector('.product-price')?.textContent || 
+                         productPrice;
+                         
+          productImage = productContainer.querySelector('img')?.src || productImage;
+        }
+        
+        // Save to localStorage for checkout page
+        const cartItem = {
+          name: productName,
+          price: productPrice,
+          period: '7-day rental', // Default rental period
+          image: productImage
+        };
+        
+        // Save to cart
+        let cart = JSON.parse(localStorage.getItem('rentifyCart')) || [];
+        cart.push(cartItem);
+        localStorage.setItem('rentifyCart', JSON.stringify(cart));
+        
+        // Redirect to checkout
+        window.location.href = 'checkout.html';
+      });
     });
-  });
+  }
+  
+  // Setup all rent buttons on page
+  setupRentButtons();
   
   // Newsletter form submission
   const newsletterForm = document.querySelector('.newsletter-form');
@@ -251,58 +339,46 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!isDown) return;
       e.preventDefault();
       const x = e.pageX - row.offsetLeft;
-      const walk = (x - startX) * 2; // Scroll speed
+      const walk = (x - startX) * 2; // Scroll speed multiplier
       row.scrollLeft = scrollLeft - walk;
     });
     
     // Keyboard navigation
+    row.setAttribute('tabindex', '0'); // Make focusable
     row.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') {
-        row.scrollLeft += 300; // Scroll by 300px right
+        row.scrollLeft += scrollAmount;
         e.preventDefault();
       } else if (e.key === 'ArrowLeft') {
-        row.scrollLeft -= 300; // Scroll by 300px left
+        row.scrollLeft -= scrollAmount;
         e.preventDefault();
       }
     });
   });
-
-  // Set initial cursor for horizontally scrollable elements
-  categoryRows.forEach(row => {
-    row.style.cursor = 'grab';
-  });
   
-  // Fix image loading issues
-  document.querySelectorAll('img').forEach(img => {
-    img.addEventListener('error', function() {
-      // If image fails to load, replace with a placeholder
-      this.src = 'https://placehold.co/600x400/333/white?text=Image+Not+Found';
-      this.alt = 'Image could not be loaded';
-    });
-  });
-  
-  // Add active state to navigation links based on scroll position
-  window.addEventListener('scroll', highlightNavOnScroll);
-  
+  // Highlight active nav item based on scroll position
   function highlightNavOnScroll() {
     const sections = document.querySelectorAll('section[id]');
-    const scrollPosition = window.scrollY + window.innerHeight / 3;
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+    
+    let scrollPosition = window.scrollY + 100;
     
     sections.forEach(section => {
-      const sectionTop = section.offsetTop - 100;
-      const sectionBottom = sectionTop + section.offsetHeight;
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.offsetHeight;
       const sectionId = section.getAttribute('id');
-      const navigationLink = document.querySelector(`nav a[href="#${sectionId}"]`);
       
-      if (scrollPosition >= sectionTop && scrollPosition < sectionBottom && navigationLink) {
-        document.querySelectorAll('nav a').forEach(link => {
+      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+        navLinks.forEach(link => {
           link.classList.remove('active');
+          if (link.getAttribute('href') === `#${sectionId}`) {
+            link.classList.add('active');
+          }
         });
-        navigationLink.classList.add('active');
       }
     });
   }
   
-  // Initialize active state for navigation
-  highlightNavOnScroll();
+  window.addEventListener('scroll', highlightNavOnScroll);
+  highlightNavOnScroll(); // Run once on page load
 }); 
