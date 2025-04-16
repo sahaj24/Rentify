@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Rentify</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
+            --light-card: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --accent-color: #e50914;
+            --accent-hover: #bc0911;
+            --border-color: #333333;
+            --input-bg: #2a2a2a;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #17a2b8;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .main-header {
+            background-color: rgba(18, 18, 18, 0.95);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 8px;
+        }
+        
+        .login-container {
+            display: flex;
+            min-height: calc(100vh - 70px);
+            margin: 0 auto;
+            flex: 1;
+        }
+        
+        .login-image {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(229, 9, 20, 0.8), rgba(136, 14, 79, 0.9)), 
+                        url('https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-image-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: left;
+            max-width: 90%;
+            padding: 2rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+        }
+        
+        .login-image-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .login-image-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .brand-highlights {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+        
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .highlight-item i {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            width: 24px;
+            text-align: center;
+        }
+        
+        .login-form-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background-color: var(--dark-bg);
+        }
+        
+        .login-form-box {
+            width: 100%;
+            max-width: 450px;
+            padding: 3rem;
+            background: var(--card-bg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .form-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .form-header p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+        
+        .form-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .form-tab {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-secondary);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .form-tab.active {
+            color: var(--accent-color);
+        }
+        
+        .form-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 1.8rem;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background-color: var(--input-bg);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.15);
+        }
+        
+        .input-icon {
+            position: absolute;
+            top: 53%;
+            left: 1rem;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+        
+        .forgot-password {
+            text-align: right;
+            margin-bottom: 1.5rem;
+        }
+        
+        .forgot-password a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(229, 9, 20, 0.3);
+        }
+        
+        .login-divider {
+            display: flex;
+            align-items: center;
+            margin: 2rem 0;
+            color: var(--text-secondary);
+        }
+        
+        .login-divider::before,
+        .login-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+        
+        .login-divider-text {
+            padding: 0 15px;
+            font-size: 0.9rem;
+        }
+        
+        .social-login {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+        
+        .social-login-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background-color: var(--light-card);
+            color: var(--text-primary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .social-login-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-login-btn i {
+            font-size: 1.2rem;
+        }
+        
+        .google-btn i {
+            color: #DB4437;
+        }
+        
+        .facebook-btn i {
+            color: #4267B2;
+        }
+        
+        .register-prompt {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        .register-prompt a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .register-prompt a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Form Animation */
+        .form-container {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .form-container.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .login-container {
+                flex-direction: column;
+            }
+            
+            .login-image {
+                min-height: 300px;
+            }
+            
+            .login-form-box {
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .login-image-content h2 {
+                font-size: 2rem;
+            }
+            
+            .login-form-box {
+                padding: 2rem;
+            }
+            
+            .form-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .social-login {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .login-image {
+                min-height: 250px;
+                padding: 1.5rem;
+            }
+            
+            .login-image-content {
+                padding: 1.5rem;
+            }
+            
+            .login-image-content h2 {
+                font-size: 1.8rem;
+            }
+            
+            .login-form-container {
+                padding: 1rem;
+            }
+            
+            .login-form-box {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Logo.jpeg" alt="Rentify Logo" class="logo-image">
+                    <h1>Rentify</h1>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="login-container">
+        <div class="login-image">
+            <div class="login-image-content">
+                <h2>Welcome to Rentify</h2>
+                <p>Your digital marketplace for renting professional software and tools at affordable prices</p>
+                
+                <div class="brand-highlights">
+                    <div class="highlight-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Access premium software at a fraction of the cost</span>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Instant digital delivery and activation</span>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Flexible rental periods from 1 day to 1 year</span>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>24/7 technical support for all products</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="login-form-container">
+            <div class="login-form-box">
+                <div class="form-header">
+                    <h2>Account Access</h2>
+                    <p>Sign in to access your rentals and manage your account</p>
+                </div>
+                
+                <div class="form-tabs">
+                    <div class="form-tab active" data-tab="login">Sign In</div>
+                    <div class="form-tab" data-tab="register">Register</div>
+                </div>
+                
+                <!-- Login Form -->
+                <form id="login-form" class="form-container active">
+                    <div class="input-group">
+                        <label for="login-email">Email Address</label>
+                        <i class="input-icon fas fa-envelope"></i>
+                        <input type="email" id="login-email" class="form-input" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="login-password">Password</label>
+                        <i class="input-icon fas fa-lock"></i>
+                        <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <div class="forgot-password">
+                        <a href="#">Forgot password?</a>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Sign In</button>
+                    
+                    <div class="login-divider">
+                        <span class="login-divider-text">OR</span>
+                    </div>
+                    
+                    <div class="social-login">
+                        <button type="button" class="social-login-btn google-btn">
+                            <i class="fab fa-google"></i>
+                            <span>Google</span>
+                        </button>
+                        <button type="button" class="social-login-btn facebook-btn">
+                            <i class="fab fa-facebook-f"></i>
+                            <span>Facebook</span>
+                        </button>
+                    </div>
+                    
+                    <div class="register-prompt">
+                        <p>Don't have an account? <a href="#" class="switch-form" data-form="register">Register now</a></p>
+                    </div>
+                </form>
+                
+                <!-- Register Form -->
+                <form id="register-form" class="form-container">
+                    <div class="input-group">
+                        <label for="register-name">Full Name</label>
+                        <i class="input-icon fas fa-user"></i>
+                        <input type="text" id="register-name" class="form-input" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="register-email">Email Address</label>
+                        <i class="input-icon fas fa-envelope"></i>
+                        <input type="email" id="register-email" class="form-input" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="register-password">Password</label>
+                        <i class="input-icon fas fa-lock"></i>
+                        <input type="password" id="register-password" class="form-input" placeholder="Create a password" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="register-confirm-password">Confirm Password</label>
+                        <i class="input-icon fas fa-lock"></i>
+                        <input type="password" id="register-confirm-password" class="form-input" placeholder="Confirm your password" required>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Create Account</button>
+                    
+                    <div class="login-divider">
+                        <span class="login-divider-text">OR</span>
+                    </div>
+                    
+                    <div class="social-login">
+                        <button type="button" class="social-login-btn google-btn">
+                            <i class="fab fa-google"></i>
+                            <span>Google</span>
+                        </button>
+                        <button type="button" class="social-login-btn facebook-btn">
+                            <i class="fab fa-facebook-f"></i>
+                            <span>Facebook</span>
+                        </button>
+                    </div>
+                    
+                    <div class="register-prompt">
+                        <p>Already have an account? <a href="#" class="switch-form" data-form="login">Sign in</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const tabs = document.querySelectorAll('.form-tab');
+            const forms = document.querySelectorAll('.form-container');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and forms
+                    tabs.forEach(t => t.classList.remove('active'));
+                    forms.forEach(f => f.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Show corresponding form
+                    const formId = this.getAttribute('data-tab') + '-form';
+                    document.getElementById(formId).classList.add('active');
+                });
+            });
+            
+            // Form switching links
+            const switchLinks = document.querySelectorAll('.switch-form');
+            
+            switchLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Get the form to switch to
+                    const formToSwitch = this.getAttribute('data-form');
+                    
+                    // Find the tab for this form and click it
+                    const tabToClick = document.querySelector(`.form-tab[data-tab="${formToSwitch}"]`);
+                    if (tabToClick) {
+                        tabToClick.click();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

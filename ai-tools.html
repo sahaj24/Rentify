@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools Equipment - Rentify</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* AI Tools Specific Styles */
+        .ai-tools-hero {
+            background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1677442320859-47f747c6c4ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1932&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 120px 0;
+            text-align: center;
+            color: white;
+        }
+        
+        .ai-tools-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .ai-tools-hero p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .ai-tools-search {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-radius: 30px;
+        }
+        
+        .ai-tools-search input {
+            flex: 1;
+            padding: 18px 25px;
+            border: none;
+            border-radius: 30px 0 0 30px;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.95);
+        }
+        
+        .ai-tools-search input:focus {
+            outline: none;
+        }
+        
+        .ai-tools-search button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 0 30px 30px 0;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .ai-tools-search button:hover {
+            background: #d30813;
+            transform: translateY(-2px);
+        }
+        
+        .tool-categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 40px;
+        }
+        
+        .tool-category {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            backdrop-filter: blur(5px);
+        }
+        
+        .tool-category:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        .tool-category.active {
+            background: var(--primary-color);
+            box-shadow: 0 4px 10px rgba(223, 12, 29, 0.3);
+        }
+        
+        /* Tool Card Column Layout */
+        .content-section {
+            padding: 80px 0;
+            background: #121212;
+            color: white;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .product-card {
+            background: #1e1e1e;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transition: all 0.4s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: rgba(223, 12, 29, 0.3);
+        }
+        
+        .product-image {
+            background: linear-gradient(145deg, #242424, #1a1a1a);
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .product-image img {
+            max-width: 120px;
+            max-height: 120px;
+            object-fit: contain;
+            transition: transform 0.5s;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5)) brightness(0.95);
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 8px 15px rgba(223, 12, 29, 0.3)) brightness(1.05);
+        }
+        
+        .product-info {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            color: #fff;
+        }
+        
+        .product-category {
+            color: var(--primary-color);
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .product-rating {
+            color: #f39c12;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .product-rating i {
+            margin-right: 2px;
+        }
+        
+        .product-rating span {
+            margin-left: 5px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .product-price {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .product-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .product-features {
+            margin-bottom: 20px;
+        }
+        
+        .feature-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-item {
+            background: rgba(223, 12, 29, 0.15);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            border: 1px solid rgba(223, 12, 29, 0.3);
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+        
+        .rent-button {
+            flex: 1;
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 8px rgba(223, 12, 29, 0.3);
+        }
+        
+        .rent-button:hover {
+            background: #d30813;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(223, 12, 29, 0.4);
+        }
+        
+        .details-button {
+            flex: 1;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.85);
+            text-align: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .details-button:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: var(--primary-color);
+        }
+        
+        @media screen and (max-width: 1200px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media screen and (max-width: 992px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .ai-tools-hero h1 {
+                font-size: 3rem;
+            }
+        }
+        
+        @media screen and (max-width: 768px) {
+            .product-actions {
+                flex-direction: column;
+            }
+            
+            .ai-tools-search {
+                width: 90%;
+            }
+            
+            .ai-tools-hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media screen and (max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ai-tools-hero {
+                padding: 80px 0;
+            }
+            
+            .content-section {
+                padding: 60px 0;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html" aria-label="Rentify Home">
+                    <img src="Logo.jpeg" alt="Rentify Logo" class="logo-image" width="40" height="40">
+                    <h1>Rentify</h1>
+                </a>
+            </div>
+            
+            <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="main-nav" id="main-navigation" aria-label="Main navigation">
+                <ul>
+                    <li><a href="index.html#software-section">Software</a></li>
+                    <li><a href="ai-tools.html" class="active">AI Tools</a></li>
+                    <li><a href="index.html#digital-assets">Digital Assets</a></li>
+                    <li><a href="index.html#equipment">Equipment</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <button class="cart-toggle" aria-label="View shopping cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </button>
+                <button class="user-account" aria-label="User account" onclick="window.location.href='login.html'">
+                        <i class="fas fa-user"></i>
+                    </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- AI Tools Hero Section -->
+    <section class="ai-tools-hero">
+        <div class="container">
+            <h1>AI Tools & Services</h1>
+            <p>Rent cutting-edge AI tools for your projects and business needs at affordable prices</p>
+            
+            <div class="ai-tools-search">
+                <input type="text" placeholder="Search AI tools, models, and services...">
+                <button type="submit"><i class="fas fa-search"></i> Search</button>
+            </div>
+            
+            <div class="tool-categories">
+                <div class="tool-category active">All Tools</div>
+                <div class="tool-category">Text Generation</div>
+                <div class="tool-category">Image Creation</div>
+                <div class="tool-category">Content Analysis</div>
+                <div class="tool-category">Code Assistance</div>
+                <div class="tool-category">Data Analysis</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <section class="content-section">
+            <div class="section-header">
+                <h2 class="section-title">Featured AI Tools</h2>
+                <p class="section-subtitle">Top-rated AI tools available for immediate rental</p>
+            </div>
+            
+            <div class="products-grid">
+                <!-- ChatGPT -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://cdn-icons-png.flaticon.com/512/8637/8637457.png" alt="ChatGPT Plus">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">ChatGPT Plus (GPT-4)</h3>
+                        <p class="product-category">Conversational AI</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.9)</span>
+                        </div>
+                        <div class="product-price">$1.99/day</div>
+                        <p class="product-description">Premium version of ChatGPT with faster response times, GPT-4 capabilities, and priority access during high traffic periods.</p>
+                        
+                        <div class="product-features">
+                            <div class="feature-list">
+                                <span class="feature-item">GPT-4 Model</span>
+                                <span class="feature-item">Priority Access</span>
+                                <span class="feature-item">Web Browsing</span>
+                            </div>
+                        </div>
+                        
+                        <div class="product-actions">
+                            <a href="product-details.html" class="rent-button">Rent Now</a>
+                            <a href="product-details.html" class="details-button">Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Midjourney -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://cdn-icons-png.flaticon.com/512/6295/6295417.png" alt="Midjourney">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Midjourney (Standard)</h3>
+                        <p class="product-category">Image Generation</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(4.8)</span>
+                        </div>
+                        <div class="product-price">$1.49/day</div>
+                        <p class="product-description">AI image generation tool that creates stunning, artistic images from text descriptions with incredible detail and creativity.</p>
+                        
+                        <div class="product-features">
+                            <div class="feature-list">
+                                <span class="feature-item">High Resolution</span>
+                                <span class="feature-item">Fast Generation</span>
+                                <span class="feature-item">Commercial Usage</span>
+                            </div>
+                        </div>
+                        
+                        <div class="product-actions">
+                            <a href="product-details.html" class="rent-button">Rent Now</a>
+                            <a href="product-details.html" class="details-button">Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GitHub Copilot -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://cdn-icons-png.flaticon.com/512/6295/6295405.png" alt="GitHub Copilot">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">GitHub Copilot</h3>
+                        <p class="product-category">Code Assistant</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.7)</span>
+                        </div>
+                        <div class="product-price">$1.29/day</div>
+                        <p class="product-description">AI pair programmer that helps write better code faster with context-aware suggestions across multiple programming languages.</p>
+                        
+                        <div class="product-features">
+                            <div class="feature-list">
+                                <span class="feature-item">Multi-language</span>
+                                <span class="feature-item">Auto-completion</span>
+                                <span class="feature-item">IDE Integration</span>
+                            </div>
+                        </div>
+                        
+                        <div class="product-actions">
+                            <a href="product-details.html" class="rent-button">Rent Now</a>
+                            <a href="product-details.html" class="details-button">Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DALL-E 3 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://cdn-icons-png.flaticon.com/512/9073/9073031.png" alt="DALL-E 3">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">DALL-E 3</h3>
+                        <p class="product-category">Image Creation</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(4.9)</span>
+                        </div>
+                        <div class="product-price">$1.79/day</div>
+                        <p class="product-description">Advanced AI system that creates realistic images and art from natural language descriptions with remarkable accuracy.</p>
+                        
+                        <div class="product-features">
+                            <div class="feature-list">
+                                <span class="feature-item">Photorealistic</span>
+                                <span class="feature-item">Style Control</span>
+                                <span class="feature-item">High Resolution</span>
+                            </div>
+                        </div>
+                        
+                        <div class="product-actions">
+                            <a href="product-details.html" class="rent-button">Rent Now</a>
+                            <a href="product-details.html" class="details-button">Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Claude AI -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://cdn-icons-png.flaticon.com/512/8637/8637558.png" alt="Claude AI">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Claude 3 Opus</h3>
+                        <p class="product-category">AI Assistant</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(4.8)</span>
+                        </div>
+                        <div class="product-price">$1.89/day</div>
+                        <p class="product-description">Anthropic's most capable AI assistant with advanced reasoning, document analysis, and nuanced conversation capabilities.</p>
+                        
+                        <div class="product-features">
+                            <div class="feature-list">
+                                <span class="feature-item">100K Context</span>
+                                <span class="feature-item">Document Analysis</span>
+                                <span class="feature-item">Code Support</span>
+                            </div>
+                        </div>
+                        
+                        <div class="product-actions">
+                            <a href="product-details.html" class="rent-button">Rent Now</a>
+                            <a href="product-details.html" class="details-button">Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jasper AI -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://cdn-icons-png.flaticon.com/512/8637/8637685.png" alt="Jasper AI">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Jasper AI</h3>
+                        <p class="product-category">Content Creation</p>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(4.6)</span>
+                        </div>
+                        <div class="product-price">$1.19/day</div>
+                        <p class="product-description">AI content platform specializing in marketing content generation with templates for blogs, social media, emails, and ads.</p>
+                        
+                        <div class="product-features">
+                            <div class="feature-list">
+                                <span class="feature-item">50+ Templates</span>
+                                <span class="feature-item">Brand Voice</span>
+                                <span class="feature-item">SEO Integration</span>
+                            </div>
+                        </div>
+                        
+                        <div class="product-actions">
+                            <a href="product-details.html" class="rent-button">Rent Now</a>
+                            <a href="product-details.html" class="details-button">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="Logo.jpeg" alt="Rentify Logo" class="footer-logo-img" width="50" height="50">
+                    <p>Your digital rental marketplace</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>Categories</h3>
+                        <ul>
+                            <li><a href="video-editing.html">Video Editing</a></li>
+                            <li><a href="ai-tools.html">AI Tools</a></li>
+                            <li><a href="games.html">Gaming</a></li>
+                            <li><a href="music.html">Music</a></li>
+                            <li><a href="movies.html">Movies</a></li>
+                        </ul>
+            </div>
+                    <div class="footer-column">
+                        <h3>Account</h3>
+                        <ul>
+                            <li><a href="login.html">Login</a></li>
+                            <li><a href="login.html">Register</a></li>
+                            <li><a href="#">My Rentals</a></li>
+                            <li><a href="#">Wishlist</a></li>
+                            <li><a href="#">Settings</a></li>
+                </ul>
+            </div>
+                    <div class="footer-column">
+                        <h3>Information</h3>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Stay Updated</h3>
+                    <p>Subscribe to our newsletter for the latest additions and exclusive offers.</p>
+                    <form class="newsletter-form" aria-label="Newsletter subscription">
+                        <input type="email" placeholder="Your email address" aria-label="Your email address" required>
+                        <button type="submit" aria-label="Subscribe">Subscribe</button>
+                </form>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Rentify. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+                                    </button>
+
+    <script src="js/script.js"></script>
+    <script src="js/ai-tools.js"></script>
+</body>
+</html> 

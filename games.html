@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming Equipment - Rentify</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Pro player cards styles */
+        .pro-player-container {
+            margin-top: 2rem;
+        }
+        
+        .game-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+        
+        .game-tab {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--card-bg);
+            border-radius: var(--button-radius);
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+            white-space: nowrap;
+            font-weight: 500;
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+        
+        .game-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .game-section {
+            display: none;
+        }
+        
+        .game-section.active {
+            display: block;
+        }
+        
+        .pro-player-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .pro-player-card {
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            box-shadow: 0 4px 15px var(--shadow-color);
+            overflow: hidden;
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+        }
+        
+        .pro-player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px var(--shadow-color);
+        }
+        
+        .player-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+        
+        .player-info {
+            padding: 1.5rem;
+        }
+        
+        .player-info h4 {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+        
+        .team {
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin: 0.5rem 0 1rem;
+        }
+        
+        .player-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat {
+            text-align: center;
+            background-color: var(--hover-color);
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+        
+        .stat-title {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .stat-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .rental-prices {
+            margin-bottom: 1.5rem;
+        }
+        
+        .rental-price {
+            display: block;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .rent-btn {
+            width: 100%;
+            padding: 0.75rem 0;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--button-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color var(--transition-speed) ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .rent-btn:hover {
+            background-color: var(--primary-hover);
+        }
+        
+        .rent-btn i {
+            font-size: 1rem;
+        }
+        
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--dark-notification-bg, #333);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--button-radius, 8px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1003;
+            max-width: 400px;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .notification.success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border-left: 5px solid #1a9e3b;
+        }
+        
+        .notification.error {
+            background: linear-gradient(135deg, #dc3545, #e74c3c);
+            border-left: 5px solid #bd2130;
+        }
+        
+        .notification.info {
+            background: linear-gradient(135deg, #007bff, #17a2b8);
+            border-left: 5px solid #0069d9;
+        }
+        
+        .notification i {
+            font-size: 1.2rem;
+        }
+        
+        /* Dark mode adjustments */
+        [data-theme="dark"] .game-tab {
+            background-color: var(--dark-card-bg);
+        }
+        
+        [data-theme="dark"] .pro-player-card {
+            background-color: var(--dark-card-bg);
+            box-shadow: 0 4px 15px var(--dark-shadow-color);
+        }
+        
+        [data-theme="dark"] .pro-player-card:hover {
+            box-shadow: 0 10px 25px var(--dark-shadow-color);
+        }
+        
+        [data-theme="dark"] .stat {
+            background-color: var(--dark-hover-color);
+        }
+        
+        [data-theme="dark"] .cart-sidebar {
+            background-color: var(--dark-card-bg);
+            box-shadow: -5px 0 15px var(--dark-shadow-color);
+        }
+        
+        /* Cart Sidebar Styles */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            height: 100vh;
+            background-color: var(--card-bg);
+            box-shadow: -5px 0 15px var(--shadow-color);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .cart-sidebar.active {
+            right: 0;
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+        
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 2rem;
+        }
+        
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .checkout-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--button-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .checkout-btn:hover {
+            background-color: var(--primary-hover);
+        }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .pro-player-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+            
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .pro-player-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .game-tabs {
+                gap: 0.5rem;
+            }
+            
+            .game-tab {
+                padding: 0.5rem 1rem;
+            }
+            
+            .notification {
+                left: 1rem;
+                right: 1rem;
+                max-width: calc(100% - 2rem);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <h1><a href="index.html">
+                    <img src="Logo.jpeg" alt="Rentify Logo" class="logo-image">
+                    Rentify
+                </a></h1>
+                <p class="tagline">Professional Equipment Rental</p>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#categories">Categories</a></li>
+                    <li><a href="index.html#process">How It Works</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="theme-switch">
+                    <label for="theme-toggle">Theme</label>
+                    <input type="checkbox" id="theme-toggle">
+                    <div class="slider"></div>
+                </div>
+                <button class="cart-toggle" id="cartToggle">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </button>
+                <div class="user-menu-container">
+                    <button class="user-account" id="userButton">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <div class="user-menu" id="userMenu">
+                        <div class="user-menu-header">
+                            <i class="fas fa-user-circle"></i>
+                            <div class="user-info">
+                                <p class="user-name">Guest User</p>
+                                <p class="user-email">Sign in to access your account</p>
+                            </div>
+                        </div>
+                        <div class="user-menu-items">
+                            <a href="#" class="menu-item" id="signInBtn">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Sign In
+                            </a>
+                            <a href="#" class="menu-item" id="registerBtn">
+                                <i class="fas fa-user-plus"></i>
+                                Register
+                            </a>
+                            <a href="#" class="menu-item" id="ordersBtn">
+                                <i class="fas fa-box"></i>
+                                My Orders
+                            </a>
+                            <a href="#" class="menu-item" id="wishlistBtn">
+                                <i class="fas fa-heart"></i>
+                                Wishlist
+                            </a>
+                            <a href="#" class="menu-item" id="settingsBtn">
+                                <i class="fas fa-cog"></i>
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Category Hero Section -->
+    <section class="category-hero">
+        <div class="hero-content">
+            <h1>Gaming Equipment</h1>
+            <p>Rent pro player IDs and gaming equipment for your favorite games</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search games...">
+                <button><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Game Categories Section -->
+        <section class="game-categories">
+            <h2 class="section-title">Game Categories</h2>
+            <div class="game-category-tabs">
+                <button class="game-tab active" data-game="pubg">PUBG</button>
+                <button class="game-tab" data-game="valorant">Valorant</button>
+                <button class="game-tab" data-game="fortnite">Fortnite</button>
+                <button class="game-tab" data-game="csgo">CS:GO</button>
+                <button class="game-tab" data-game="fifa">FIFA</button>
+                <button class="game-tab" data-game="lol">League of Legends</button>
+                <button class="game-tab" data-game="apex">Apex Legends</button>
+            </div>
+
+            <!-- PUBG Section -->
+            <div class="game-section active" id="pubg-section">
+                <h3>PUBG Pro Players</h3>
+                <div class="pro-players-grid">
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/mortal.jpg" alt="Mortal">
+                            <span class="rank-badge">#1</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Mortal</h4>
+                            <p class="team">Team Soul</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 4.2</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 500+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $50</div>
+                            <div class="rental-price">3 Days - $135</div>
+                            <div class="rental-price">7 Days - $300</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/jonathan.jpg" alt="Jonathan">
+                            <span class="rank-badge">#2</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Jonathan</h4>
+                            <p class="team">GodLike Esports</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 4.0</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 450+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $45</div>
+                            <div class="rental-price">3 Days - $121.5</div>
+                            <div class="rental-price">7 Days - $270</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/scout.jpg" alt="Scout">
+                            <span class="rank-badge">#3</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Scout</h4>
+                            <p class="team">Team XSpark</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 3.8</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 400+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $40</div>
+                            <div class="rental-price">3 Days - $108</div>
+                            <div class="rental-price">7 Days - $240</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/dynamo.jpg" alt="Dynamo">
+                            <span class="rank-badge">#4</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Dynamo</h4>
+                            <p class="team">Team XSpark</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 3.7</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 380+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $38</div>
+                            <div class="rental-price">3 Days - $102.6</div>
+                            <div class="rental-price">7 Days - $228</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/paraboy.jpg" alt="Paraboy">
+                            <span class="rank-badge">#5</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Paraboy</h4>
+                            <p class="team">Team XSpark</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 3.6</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 350+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $35</div>
+                            <div class="rental-price">3 Days - $94.5</div>
+                            <div class="rental-price">7 Days - $210</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Valorant Section -->
+            <div class="game-section" id="valorant-section">
+                <h3>Valorant Pro Players</h3>
+                <div class="pro-players-grid">
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/tenz.jpg" alt="Tenz">
+                            <span class="rank-badge">#1</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Tenz</h4>
+                            <p class="team">Sentinels</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 1.8</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 300+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $45</div>
+                            <div class="rental-price">3 Days - $121.5</div>
+                            <div class="rental-price">7 Days - $270</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/sinatraa.jpg" alt="Sinatraa">
+                            <span class="rank-badge">#2</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Sinatraa</h4>
+                            <p class="team">Sentinels</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 1.6</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 250+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $40</div>
+                            <div class="rental-price">3 Days - $108</div>
+                            <div class="rental-price">7 Days - $240</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/hiko.jpg" alt="Hiko">
+                            <span class="rank-badge">#3</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Hiko</h4>
+                            <p class="team">100 Thieves</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 1.5</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 200+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $35</div>
+                            <div class="rental-price">3 Days - $94.5</div>
+                            <div class="rental-price">7 Days - $210</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/scream.jpg" alt="ScreaM">
+                            <span class="rank-badge">#4</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>ScreaM</h4>
+                            <p class="team">Team Liquid</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 1.7</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 280+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $42</div>
+                            <div class="rental-price">3 Days - $113.4</div>
+                            <div class="rental-price">7 Days - $252</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/brax.jpg" alt="Brax">
+                            <span class="rank-badge">#5</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Brax</h4>
+                            <p class="team">Sentinels</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 1.4</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 180+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $32</div>
+                            <div class="rental-price">3 Days - $86.4</div>
+                            <div class="rental-price">7 Days - $192</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fortnite Section -->
+            <div class="game-section" id="fortnite-section">
+                <h3>Fortnite Pro Players</h3>
+                <div class="pro-players-grid">
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/ninja.jpg" alt="Ninja">
+                            <span class="rank-badge">#1</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Ninja</h4>
+                            <p class="team">Luminosity Gaming</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 5.0</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 1000+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $60</div>
+                            <div class="rental-price">3 Days - $162</div>
+                            <div class="rental-price">7 Days - $360</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/tfue.jpg" alt="Tfue">
+                            <span class="rank-badge">#2</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Tfue</h4>
+                            <p class="team">FaZe Clan</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 4.8</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 900+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $55</div>
+                            <div class="rental-price">3 Days - $148.5</div>
+                            <div class="rental-price">7 Days - $330</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/mongraal.jpg" alt="Mongraal">
+                            <span class="rank-badge">#3</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Mongraal</h4>
+                            <p class="team">FaZe Clan</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 4.5</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 800+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $50</div>
+                            <div class="rental-price">3 Days - $135</div>
+                            <div class="rental-price">7 Days - $300</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/benjyfishy.jpg" alt="Benjyfishy">
+                            <span class="rank-badge">#4</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Benjyfishy</h4>
+                            <p class="team">NRG</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 4.3</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 750+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $48</div>
+                            <div class="rental-price">3 Days - $130.2</div>
+                            <div class="rental-price">7 Days - $294</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/mitr0.jpg" alt="Mitr0">
+                            <span class="rank-badge">#5</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Mitr0</h4>
+                            <p class="team">Team Liquid</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 4.2</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 700+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $45</div>
+                            <div class="rental-price">3 Days - $121.5</div>
+                            <div class="rental-price">7 Days - $270</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CS:GO Section -->
+            <div class="game-section" id="csgo-section">
+                <h3>CS:GO Pro Players</h3>
+                <div class="pro-players-grid">
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/s1mple.jpg" alt="s1mple">
+                            <span class="rank-badge">#1</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>s1mple</h4>
+                            <p class="team">NAVI</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 1.35</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 200+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $55</div>
+                            <div class="rental-price">3 Days - $148.5</div>
+                            <div class="rental-price">7 Days - $330</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/zywoo.jpg" alt="ZywOo">
+                            <span class="rank-badge">#2</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>ZywOo</h4>
+                            <p class="team">Team Vitality</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 1.32</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 180+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $50</div>
+                            <div class="rental-price">3 Days - $135</div>
+                            <div class="rental-price">7 Days - $300</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/device.jpg" alt="device">
+                            <span class="rank-badge">#3</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>device</h4>
+                            <p class="team">Astralis</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 1.30</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 150+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $45</div>
+                            <div class="rental-price">3 Days - $121.5</div>
+                            <div class="rental-price">7 Days - $270</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/niko.jpg" alt="NiKo">
+                            <span class="rank-badge">#4</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>NiKo</h4>
+                            <p class="team">G2 Esports</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 1.28</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 140+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $42</div>
+                            <div class="rental-price">3 Days - $113.4</div>
+                            <div class="rental-price">7 Days - $252</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/electronic.jpg" alt="electronic">
+                            <span class="rank-badge">#5</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>electronic</h4>
+                            <p class="team">NAVI</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 1.25</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 130+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $40</div>
+                            <div class="rental-price">3 Days - $108</div>
+                            <div class="rental-price">7 Days - $240</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FIFA Section -->
+            <div class="game-section" id="fifa-section">
+                <h3>FIFA Pro Players</h3>
+                <div class="pro-players-grid">
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/tekz.jpg" alt="Tekkz">
+                            <span class="rank-badge">#1</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Tekkz</h4>
+                            <p class="team">Fnatic</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-trophy"></i> Wins: 100+</span>
+                                <span><i class="fas fa-star"></i> Rating: 9.5</span>
+                            </div>
+                            <div class="rental-price">1 Day - $40</div>
+                            <div class="rental-price">3 Days - $108</div>
+                            <div class="rental-price">7 Days - $240</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/msdossary.jpg" alt="Msdossary">
+                            <span class="rank-badge">#2</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Msdossary</h4>
+                            <p class="team">Twisted Minds</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-trophy"></i> Wins: 90+</span>
+                                <span><i class="fas fa-star"></i> Rating: 9.3</span>
+                            </div>
+                            <div class="rental-price">1 Day - $35</div>
+                            <div class="rental-price">3 Days - $94.5</div>
+                            <div class="rental-price">7 Days - $210</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/nicolas99fc.jpg" alt="Nicolas99fc">
+                            <span class="rank-badge">#3</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Nicolas99fc</h4>
+                            <p class="team">FaZe Clan</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-trophy"></i> Wins: 80+</span>
+                                <span><i class="fas fa-star"></i> Rating: 9.2</span>
+                            </div>
+                            <div class="rental-price">1 Day - $30</div>
+                            <div class="rental-price">3 Days - $81</div>
+                            <div class="rental-price">7 Days - $180</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/dani.jpg" alt="Dani">
+                            <span class="rank-badge">#4</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Dani</h4>
+                            <p class="team">Team Liquid</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-trophy"></i> Wins: 75+</span>
+                                <span><i class="fas fa-star"></i> Rating: 9.1</span>
+                            </div>
+                            <div class="rental-price">1 Day - $28</div>
+                            <div class="rental-price">3 Days - $75.6</div>
+                            <div class="rental-price">7 Days - $168</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/gorilla.jpg" alt="Gorilla">
+                            <span class="rank-badge">#5</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Gorilla</h4>
+                            <p class="team">Team Liquid</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-trophy"></i> Wins: 70+</span>
+                                <span><i class="fas fa-star"></i> Rating: 9.0</span>
+                            </div>
+                            <div class="rental-price">1 Day - $25</div>
+                            <div class="rental-price">3 Days - $67.5</div>
+                            <div class="rental-price">7 Days - $150</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- League of Legends Section -->
+            <div class="game-section" id="lol-section">
+                <h3>League of Legends Pro Players</h3>
+                <div class="pro-players-grid">
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/faker.jpg" alt="Faker">
+                            <span class="rank-badge">#1</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Faker</h4>
+                            <p class="team">T1</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-star"></i> KDA: 4.5</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 500+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $60</div>
+                            <div class="rental-price">3 Days - $162</div>
+                            <div class="rental-price">7 Days - $360</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/caps.jpg" alt="Caps">
+                            <span class="rank-badge">#2</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Caps</h4>
+                            <p class="team">G2 Esports</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-star"></i> KDA: 4.2</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 450+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $55</div>
+                            <div class="rental-price">3 Days - $148.5</div>
+                            <div class="rental-price">7 Days - $330</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/theshy.jpg" alt="TheShy">
+                            <span class="rank-badge">#3</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>TheShy</h4>
+                            <p class="team">Weibo Gaming</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-star"></i> KDA: 4.0</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 400+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $50</div>
+                            <div class="rental-price">3 Days - $135</div>
+                            <div class="rental-price">7 Days - $300</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/uzi.jpg" alt="Uzi">
+                            <span class="rank-badge">#4</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Uzi</h4>
+                            <p class="team">Bilibili Gaming</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-star"></i> KDA: 3.9</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 380+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $48</div>
+                            <div class="rental-price">3 Days - $130.2</div>
+                            <div class="rental-price">7 Days - $294</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/jankos.jpg" alt="Jankos">
+                            <span class="rank-badge">#5</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Jankos</h4>
+                            <p class="team">G2 Esports</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-star"></i> KDA: 3.8</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 350+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $45</div>
+                            <div class="rental-price">3 Days - $121.5</div>
+                            <div class="rental-price">7 Days - $270</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Apex Legends Section -->
+            <div class="game-section" id="apex-section">
+                <h3>Apex Legends Pro Players</h3>
+                <div class="pro-players-grid">
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/aceu.jpg" alt="Aceu">
+                            <span class="rank-badge">#1</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Aceu</h4>
+                            <p class="team">NRG</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 4.0</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 300+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $45</div>
+                            <div class="rental-price">3 Days - $121.5</div>
+                            <div class="rental-price">7 Days - $270</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/imperialhal.jpg" alt="ImperialHal">
+                            <span class="rank-badge">#2</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>ImperialHal</h4>
+                            <p class="team">TSM</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 3.8</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 280+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $40</div>
+                            <div class="rental-price">3 Days - $108</div>
+                            <div class="rental-price">7 Days - $240</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/sweetdreams.jpg" alt="SweetDreams">
+                            <span class="rank-badge">#3</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>SweetDreams</h4>
+                            <p class="team">Cloud9</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 3.5</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 250+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $35</div>
+                            <div class="rental-price">3 Days - $94.5</div>
+                            <div class="rental-price">7 Days - $210</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/reps.jpg" alt="Reps">
+                            <span class="rank-badge">#4</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Reps</h4>
+                            <p class="team">TSM</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 3.3</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 230+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $32</div>
+                            <div class="rental-price">3 Days - $86.4</div>
+                            <div class="rental-price">7 Days - $192</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                    <div class="pro-player-card">
+                        <div class="player-image">
+                            <img src="https://example.com/albralelie.jpg" alt="Albralelie">
+                            <span class="rank-badge">#5</span>
+                        </div>
+                        <div class="player-info">
+                            <h4>Albralelie</h4>
+                            <p class="team">TSM</p>
+                            <div class="player-stats">
+                                <span><i class="fas fa-crosshairs"></i> K/D: 3.2</span>
+                                <span><i class="fas fa-trophy"></i> Wins: 220+</span>
+                            </div>
+                            <div class="rental-price">1 Day - $30</div>
+                            <div class="rental-price">3 Days - $81</div>
+                            <div class="rental-price">7 Days - $180</div>
+                            <button class="rent-btn">Rent ID</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About Rentify</h3>
+                <p>Professional equipment rental service for gamers and esports enthusiasts.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#categories">Equipment Categories</a></li>
+                    <li><a href="index.html#process">How It Works</a></li>
+                    <li><a href="index.html#rental-form">Start a Rental</a></li>
+                    <li><a href="index.html#contact">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Tech Street, Silicon Valley, CA</li>
+                    <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                    <li><i class="fas fa-envelope"></i> info@rentify.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Rentify. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Game tab functionality
+            const gameTabs = document.querySelectorAll('.game-tab');
+            const gameSections = document.querySelectorAll('.game-section');
+            const rentButtons = document.querySelectorAll('.rent-btn');
+
+            gameTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and sections
+                    gameTabs.forEach(t => t.classList.remove('active'));
+                    gameSections.forEach(s => s.classList.remove('active'));
+
+                    // Add active class to clicked tab and corresponding section
+                    tab.classList.add('active');
+                    const gameId = tab.getAttribute('data-game');
+                    document.getElementById(`${gameId}-section`).classList.add('active');
+                });
+            });
+
+            // Dark mode functionality
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.checked = true;
+            }
+            
+            // Theme toggle event listener
+            themeToggle.addEventListener('change', () => {
+                if (themeToggle.checked) {
+                    body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    body.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+
+            // Cart system
+            const cartSidebar = document.getElementById('cartSidebar');
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            const cartToggle = document.getElementById('cartToggle');
+            const closeCart = document.querySelector('.close-cart');
+            const cartCount = document.getElementById('cart-count');
+            
+            // Initialize cart from localStorage
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            updateCartDisplay();
+            updateCartCount();
+            
+            // Rent ID button functionality
+            rentButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Get player info from the parent card
+                    const playerCard = button.closest('.pro-player-card');
+                    const playerName = playerCard.querySelector('h4').textContent;
+                    const playerTeam = playerCard.querySelector('.team').textContent;
+                    const playerImage = playerCard.querySelector('.player-image img').src;
+                    const gameCategory = playerCard.closest('.game-section').querySelector('h3').textContent;
+                    
+                    // Get the first rental price (1 day price)
+                    const rentalPrice = playerCard.querySelector('.rental-price').textContent;
+                    const price = parseFloat(rentalPrice.replace('1 Day - $', ''));
+                    
+                    // Create a product object for the cart
+                    const playerProduct = {
+                        id: Date.now().toString(), // Generate a unique ID based on timestamp
+                        name: playerName + " (Pro Player ID)",
+                        category: gameCategory.replace(' Pro Players', ''),
+                        price: price,
+                        description: playerTeam,
+                        image: playerImage,
+                        quantity: 1
+                    };
+                    
+                    // Add to cart
+                    addToCart(playerProduct);
+                    
+                    // Show notification
+                    showNotification(`${playerName}'s Pro Player ID added to cart!`, 'success');
+                    
+                    // Open cart sidebar
+                    cartSidebar.classList.add('active');
+                });
+            });
+
+            // Add item to cart function
+            function addToCart(item) {
+                // Check if item already exists in cart
+                const existingItemIndex = cart.findIndex(cartItem => 
+                    cartItem.name === item.name && cartItem.description === item.description
+                );
+                
+                if (existingItemIndex > -1) {
+                    // If item exists, increase quantity
+                    cart[existingItemIndex].quantity += 1;
+                } else {
+                    // If item doesn't exist, add it to cart
+                    cart.push(item);
+                }
+                
+                // Save cart to localStorage
+                localStorage.setItem('cart', JSON.stringify(cart));
+                
+                // Update cart display and count
+                updateCartDisplay();
+                updateCartCount();
+            }
+            
+            // Update cart display function
+            function updateCartDisplay() {
+                // Clear cart items
+                cartItems.innerHTML = '';
+                
+                if (cart.length === 0) {
+                    // If cart is empty, show message
+                    cartItems.innerHTML = '<p class="empty-cart-message">Your cart is empty</p>';
+                    cartTotal.textContent = '$0.00';
+                    return;
+                }
+                
+                // Calculate total price
+                let total = 0;
+                
+                // Add each item to cart display
+                cart.forEach(item => {
+                    total += item.price * item.quantity;
+                    
+                    const cartItem = document.createElement('div');
+                    cartItem.classList.add('cart-item');
+                    cartItem.innerHTML = `
+                        <div class="cart-item-image">
+                            <img src="${item.image}" alt="${item.name}">
+                        </div>
+                        <div class="cart-item-details">
+                            <h4>${item.name}</h4>
+                            <p>${item.description}</p>
+                            <div class="cart-item-actions">
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn decrease" data-id="${item.id}">-</button>
+                                    <span class="quantity">${item.quantity}</span>
+                                    <button class="quantity-btn increase" data-id="${item.id}">+</button>
+                                </div>
+                                <div class="price-and-remove">
+                                    <span class="item-price">$${(item.price * item.quantity).toFixed(2)}</span>
+                                    <button class="remove-btn" data-id="${item.id}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    cartItems.appendChild(cartItem);
+                });
+                
+                // Update total price
+                cartTotal.textContent = `$${total.toFixed(2)}`;
+                
+                // Add event listeners to cart item buttons
+                document.querySelectorAll('.quantity-btn.decrease').forEach(btn => {
+                    btn.addEventListener('click', () => decreaseQuantity(btn.dataset.id));
+                });
+                
+                document.querySelectorAll('.quantity-btn.increase').forEach(btn => {
+                    btn.addEventListener('click', () => increaseQuantity(btn.dataset.id));
+                });
+                
+                document.querySelectorAll('.remove-btn').forEach(btn => {
+                    btn.addEventListener('click', () => removeItem(btn.dataset.id));
+                });
+            }
+            
+            // Update cart count function
+            function updateCartCount() {
+                let count = 0;
+                
+                cart.forEach(item => {
+                    count += item.quantity;
+                });
+                
+                cartCount.textContent = count;
+                
+                // Show/hide cart count based on count value
+                if (count > 0) {
+                    cartCount.style.display = 'block';
+                } else {
+                    cartCount.style.display = 'none';
+                }
+            }
+            
+            // Decrease quantity function
+            function decreaseQuantity(id) {
+                const itemIndex = cart.findIndex(item => item.id === id);
+                
+                if (itemIndex > -1) {
+                    if (cart[itemIndex].quantity > 1) {
+                        // If quantity is greater than 1, decrease by 1
+                        cart[itemIndex].quantity -= 1;
+                        showNotification('Item quantity updated', 'info');
+                    } else {
+                        // If quantity is 1, remove item from cart
+                        removeItem(id);
+                        return;
+                    }
+                    
+                    // Save cart to localStorage
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    
+                    // Update cart display and count
+                    updateCartDisplay();
+                    updateCartCount();
+                }
+            }
+            
+            // Increase quantity function
+            function increaseQuantity(id) {
+                const itemIndex = cart.findIndex(item => item.id === id);
+                
+                if (itemIndex > -1) {
+                    // Increase quantity by 1
+                    cart[itemIndex].quantity += 1;
+                    
+                    // Save cart to localStorage
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    
+                    // Update cart display and count
+                    updateCartDisplay();
+                    updateCartCount();
+                    
+                    showNotification('Item quantity updated', 'info');
+                }
+            }
+            
+            // Remove item function
+            function removeItem(id) {
+                const itemIndex = cart.findIndex(item => item.id === id);
+                
+                if (itemIndex > -1) {
+                    // Get item name for notification
+                    const itemName = cart[itemIndex].name;
+                    
+                    // Remove item from cart
+                    cart.splice(itemIndex, 1);
+                    
+                    // Save cart to localStorage
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    
+                    // Update cart display and count
+                    updateCartDisplay();
+                    updateCartCount();
+                    
+                    showNotification(`${itemName} removed from cart`, 'info');
+                }
+            }
+            
+            // Cart toggle functionality
+            if (cartToggle) {
+                cartToggle.addEventListener('click', () => {
+                    cartSidebar.classList.add('active');
+                });
+            }
+            
+            if (closeCart) {
+                closeCart.addEventListener('click', () => {
+                    cartSidebar.classList.remove('active');
+                });
+            }
+        });
+        
+        // Notification system
+        function showNotification(message, type = 'info') {
+            // Get notification element
+            const notification = document.getElementById('notification');
+            const notificationMessage = document.getElementById('notification-message');
+            const notificationIcon = notification.querySelector('i');
+            
+            // Reset classes and set type
+            notification.className = 'notification';
+            notification.classList.add(type);
+            
+            // Update icon based on notification type
+            notificationIcon.className = 'fas';
+            
+            switch (type) {
+                case 'success':
+                    notificationIcon.classList.add('fa-check-circle');
+                    break;
+                case 'error':
+                    notificationIcon.classList.add('fa-exclamation-circle');
+                    break;
+                case 'info':
+                default:
+                    notificationIcon.classList.add('fa-info-circle');
+                    break;
+            }
+            
+            // Set message
+            notificationMessage.textContent = message;
+            
+            // Show notification
+            notification.classList.add('show');
+            
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+    
+    <!-- Notification Element -->
+    <div class="notification" id="notification">
+        <i class="fas fa-info-circle"></i>
+        <span id="notification-message"></span>
+    </div>
+    
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="cart-total">
+            <span>Total:</span>
+            <span id="cartTotal">$0.00</span>
+        </div>
+        <a href="payment.html" class="checkout-btn" id="checkoutBtn">
+            <i class="fas fa-shopping-cart"></i> Proceed to Checkout
+        </a>
+    </div>
+</body>
+</html> 

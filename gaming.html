@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming Equipment - Rentify</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .game-subcategories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        .game-category-heading {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .game-category-heading .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+        .game-category-heading .category-description {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .game-category {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .game-category:hover {
+            transform: translateY(-5px);
+        }
+        .game-logo {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+        .game-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .game-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+        .game-stats {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .game-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo">
+                <h1><a href="index.html">
+                    <img src="logo.jpeg" alt="Rentify Logo" class="logo-image">
+                    Rentify
+                </a></h1>
+                <p class="tagline">Professional Equipment Rental</p>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#categories">Categories</a></li>
+                    <li><a href="index.html#process">How It Works</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="theme-switch">
+                    <label for="theme-toggle">Theme</label>
+                    <input type="checkbox" id="theme-toggle">
+                    <div class="slider"></div>
+                </div>
+                <button class="cart-toggle" id="cartToggle">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count">0</span>
+                </button>
+                <div class="user-menu-container">
+                    <button class="user-account" id="userButton">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <div class="user-menu" id="userMenu">
+                        <div class="user-menu-header">
+                            <i class="fas fa-user-circle"></i>
+                            <div class="user-info">
+                                <p class="user-name">Guest User</p>
+                                <p class="user-email">Sign in to access your account</p>
+                            </div>
+                        </div>
+                        <div class="user-menu-items">
+                            <a href="#" class="menu-item" id="signInBtn">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Sign In
+                            </a>
+                            <a href="#" class="menu-item" id="registerBtn">
+                                <i class="fas fa-user-plus"></i>
+                                Register
+                            </a>
+                            <a href="#" class="menu-item" id="ordersBtn">
+                                <i class="fas fa-box"></i>
+                                My Orders
+                            </a>
+                            <a href="#" class="menu-item" id="wishlistBtn">
+                                <i class="fas fa-heart"></i>
+                                Wishlist
+                            </a>
+                            <a href="#" class="menu-item" id="settingsBtn">
+                                <i class="fas fa-cog"></i>
+                                Settings
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Category Hero Section -->
+    <section class="category-hero">
+        <div class="hero-content">
+            <h1>Gaming Equipment</h1>
+            <p>Premium gaming consoles and accessories for the ultimate gaming experience</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search gaming equipment...">
+                <button><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Game Category Heading -->
+        <section class="game-category-heading">
+            <h2 class="section-title">Gaming</h2>
+            <p class="category-description">Explore our collection of popular games and gaming equipment</p>
+        </section>
+
+        <!-- Game Subcategories Section -->
+        <section class="game-subcategories">
+            <!-- PUBG Category -->
+            <div class="subcategory-section">
+                <h3 class="subcategory-title">PUBG: Battlegrounds</h3>
+                <div class="game-category">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/PUBG_Logo.png/1200px-PUBG_Logo.png" alt="PUBG" class="game-logo">
+                    <h3 class="game-title">PUBG: Battlegrounds</h3>
+                    <p class="game-description">Battle Royale game where 100 players fight to be the last one standing</p>
+                    <div class="game-stats">
+                        <span><i class="fas fa-users"></i> 100M+ Players</span>
+                        <span><i class="fas fa-star"></i> 4.5/5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Free Fire Category -->
+            <div class="subcategory-section">
+                <h3 class="subcategory-title">Free Fire</h3>
+                <div class="game-category">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Free_Fire_Logo.png/1200px-Free_Fire_Logo.png" alt="Free Fire" class="game-logo">
+                    <h3 class="game-title">Free Fire</h3>
+                    <p class="game-description">Battle Royale game with unique character abilities</p>
+                    <div class="game-stats">
+                        <span><i class="fas fa-users"></i> 1B+ Players</span>
+                        <span><i class="fas fa-star"></i> 4.3/5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fortnite Category -->
+            <div class="subcategory-section">
+                <h3 class="subcategory-title">Fortnite</h3>
+                <div class="game-category">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Fortnite_Logo.png/1200px-Fortnite_Logo.png" alt="Fortnite" class="game-logo">
+                    <h3 class="game-title">Fortnite</h3>
+                    <p class="game-description">Build and battle in this popular Battle Royale game</p>
+                    <div class="game-stats">
+                        <span><i class="fas fa-users"></i> 350M+ Players</span>
+                        <span><i class="fas fa-star"></i> 4.6/5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Apex Legends Category -->
+            <div class="subcategory-section">
+                <h3 class="subcategory-title">Apex Legends</h3>
+                <div class="game-category">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Apex_Legends_Logo.png/1200px-Apex_Legends_Logo.png" alt="Apex Legends" class="game-logo">
+                    <h3 class="game-title">Apex Legends</h3>
+                    <p class="game-description">Team-based Battle Royale with unique character abilities</p>
+                    <div class="game-stats">
+                        <span><i class="fas fa-users"></i> 100M+ Players</span>
+                        <span><i class="fas fa-star"></i> 4.8/5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call of Duty Category -->
+            <div class="subcategory-section">
+                <h3 class="subcategory-title">Call of Duty: Mobile</h3>
+                <div class="game-category">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Call_of_Duty_Mobile_Logo.png/1200px-Call_of_Duty_Mobile_Logo.png" alt="Call of Duty" class="game-logo">
+                    <h3 class="game-title">Call of Duty: Mobile</h3>
+                    <p class="game-description">Fast-paced first-person shooter with multiple game modes</p>
+                    <div class="game-stats">
+                        <span><i class="fas fa-users"></i> 500M+ Players</span>
+                        <span><i class="fas fa-star"></i> 4.7/5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Valorant Category -->
+            <div class="subcategory-section">
+                <h3 class="subcategory-title">Valorant</h3>
+                <div class="game-category">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Valorant_Logo.png/1200px-Valorant_Logo.png" alt="Valorant" class="game-logo">
+                    <h3 class="game-title">Valorant</h3>
+                    <p class="game-description">Tactical shooter with unique agent abilities</p>
+                    <div class="game-stats">
+                        <span><i class="fas fa-users"></i> 14M+ Players</span>
+                        <span><i class="fas fa-star"></i> 4.7/5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Legends Category -->
+            <div class="subcategory-section">
+                <h3 class="subcategory-title">Mobile Legends</h3>
+                <div class="game-category">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Mobile_Legends_Logo.png/1200px-Mobile_Legends_Logo.png" alt="Mobile Legends" class="game-logo">
+                    <h3 class="game-title">Mobile Legends</h3>
+                    <p class="game-description">5v5 MOBA with diverse hero roster</p>
+                    <div class="game-stats">
+                        <span><i class="fas fa-users"></i> 100M+ Players</span>
+                        <span><i class="fas fa-star"></i> 4.4/5</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="cart-total">
+            <span>Total:</span>
+            <span id="cartTotal">$0.00</span>
+        </div>
+        <a href="payment.html" class="checkout-btn" id="checkoutBtn">
+            <i class="fas fa-shopping-cart"></i> Proceed to Checkout
+        </a>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="product-modal" id="productModal">
+        <div class="modal-content">
+            <!-- Product details will be dynamically added here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About Rentify</h3>
+                <p>Professional equipment rental service for gamers and tech enthusiasts.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html#categories">Equipment Categories</a></li>
+                    <li><a href="index.html#process">How It Works</a></li>
+                    <li><a href="index.html#rental-form">Start a Rental</a></li>
+                    <li><a href="index.html#contact">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Tech Street, Silicon Valley, CA</li>
+                    <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                    <li><i class="fas fa-envelope"></i> info@rentify.com</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Subscribe to our newsletter for updates and special offers.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Rentify. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-info-circle"></i>
+        <span id="notification-message"></span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        // Initialize other functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCart();
+            initializeTheme();
+            initializeUserMenu();
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rentify - Digital Equipment and Software Rental Platform">
+    <title>Rentify - Digital Equipment Rental</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html" aria-label="Rentify Home">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2097/2097276.png" alt="Rentify Logo" class="logo-image" width="40" height="40">
+                    <h1>Rentify</h1>
+                </a>
+            </div>
+            
+            <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="main-navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="main-nav" id="main-navigation" aria-label="Main navigation">
+                <ul>
+                    <li><a href="#software-section">Software</a></li>
+                    <li><a href="ai-tools.html">AI Tools</a></li>
+                    <li><a href="#digital-assets">Digital Assets</a></li>
+                    <li><a href="#equipment">Equipment</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <button class="cart-toggle" aria-label="View shopping cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </button>
+                <button class="user-account" aria-label="User account" onclick="window.location.href='login.html'">
+                        <i class="fas fa-user"></i>
+                    </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+            <div class="hero-background">
+                <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80" alt="Software rental background">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="container">
+                <div class="hero-content">
+                    <span class="hero-badge">Premium Software Rentals</span>
+                    <h2>Rent digital equipment instantly</h2>
+                    <p>Access professional software, creative tools, and more</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="subscribe-btn" role="button">Subscribe</a>
+                        <a href="payment.html" class="rent-now-btn" role="button">Rent Now</a>
+                    </div>
+                    <div class="hero-features">
+                        <div class="feature">
+                            <i class="fas fa-bolt"></i>
+                            <span>Instant Access</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Secure Payments</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-headset"></i>
+                            <span>24/7 Support</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-categories">
+                    <a href="music.html" class="hero-category" aria-label="Browse Music software">
+                        <i class="fas fa-music" aria-hidden="true"></i>
+                        <span>Music</span>
+                    </a>
+                    <a href="games.html" class="hero-category" aria-label="Browse Gaming software">
+                        <i class="fas fa-gamepad" aria-hidden="true"></i>
+                        <span>Gaming</span>
+                    </a>
+                    <a href="movies.html" class="hero-category" aria-label="Browse Movies software">
+                        <i class="fas fa-film" aria-hidden="true"></i>
+                        <span>Movies</span>
+                    </a>
+                    <a href="video-editing.html" class="hero-category" aria-label="Browse Video editing software">
+                        <i class="fas fa-video" aria-hidden="true"></i>
+                        <span>Video</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recommended Section -->
+        <section class="recommended-section" aria-labelledby="recommended-heading">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" id="recommended-heading">Recommended for you</h2>
+                </div>
+                <div class="categories-row" tabindex="0" aria-label="Scrollable content, use arrow keys to navigate">
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Adobe_Premiere_Pro_CC_icon.svg/1200px-Adobe_Premiere_Pro_CC_icon.svg.png" alt="Adobe Premiere Pro icon" width="120" height="120">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Premiere Pro</h3>
+                            <p class="product-category">Creative Software</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent Premiere Pro">RENT</a>
+                        </div>
+                    </article>
+                    <article class="category-card">
+                        <img src="https://images.unsplash.com/photo-1664575198308-3959904fa430?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWlkam91cm5leXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="Midjourney generated art example" width="250" height="160">
+                        <div class="category-overlay">
+                            <h3 class="category-title">Midjourney</h3>
+                        </div>
+                    </article>
+                    <article class="category-card">
+                        <img src="https://images.unsplash.com/photo-1537495329792-41ae41ad3bf0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGFsbSUyMGxlYXZlc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="Stock photo of palm leaves" width="250" height="160">
+                        <div class="category-overlay">
+                            <h3 class="category-title">Stock Photos</h3>
+                        </div>
+                    </article>
+                    <article class="category-card">
+                        <img src="https://images.unsplash.com/photo-1638815401319-c8ee93c1e5b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8ZGFsbGUlMjBhaXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="AI generated image" width="250" height="160">
+                        <div class="category-overlay">
+                            <h3 class="category-title">AI Generated</h3>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Creative Software Section -->
+        <section id="software-section" class="software-section" aria-labelledby="software-heading">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" id="software-heading">Creative Software <a href="#" aria-label="View all creative software">See all</a></h2>
+                </div>
+                <div class="products-grid">
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968520.png" alt="Adobe Photoshop icon" width="120" height="120">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Adobe Photoshop</h3>
+                            <p class="product-category">Image Editing</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent Adobe Photoshop">RENT</a>
+                        </div>
+                    </article>
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968472.png" alt="Adobe Illustrator icon" width="120" height="120">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Adobe Illustrator</h3>
+                            <p class="product-category">Vector Graphics</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent Adobe Illustrator">RENT</a>
+                        </div>
+                    </article>
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968428.png" alt="Adobe After Effects icon" width="120" height="120">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">After Effects</h3>
+                            <p class="product-category">Motion Graphics</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent After Effects">RENT</a>
+                        </div>
+                    </article>
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968482.png" alt="Adobe InDesign icon" width="120" height="120">
+                </div>
+                        <div class="product-info">
+                            <h3 class="product-title">InDesign</h3>
+                            <p class="product-category">Publishing</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent InDesign">RENT</a>
+                </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Tools Section -->
+        <section class="ai-tools-section" aria-labelledby="ai-tools-heading">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" id="ai-tools-heading">AI Tools <a href="ai-tools.html" aria-label="View all AI tools">See all</a></h2>
+                </div>
+                <div class="products-grid">
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/8637/8637457.png" alt="ChatGPT logo" width="120" height="120">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">ChatGPT</h3>
+                            <p class="product-category">AI Assistant</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent ChatGPT">RENT</a>
+                        </div>
+                    </article>
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/9073/9073031.png" alt="OpenAI logo (DALL-E)" width="120" height="120">
+                    </div>
+                        <div class="product-info">
+                            <h3 class="product-title">DALL-E</h3>
+                            <p class="product-category">AI Image Generator</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent DALL-E">RENT</a>
+                </div>
+                    </article>
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968543.png" alt="Luminar Neo logo" width="120" height="120">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Luminar Neo</h3>
+                            <p class="product-category">AI Photo Editor</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent Luminar Neo">RENT</a>
+                        </div>
+                    </article>
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/8637/8637580.png" alt="Stable Diffusion logo" width="120" height="120">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Stable Diffusion</h3>
+                            <p class="product-category">AI Image Generator</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent Stable Diffusion">RENT</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Products Section -->
+        <section id="featured-products" class="content-section featured-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" id="featured-products-heading">Featured Software <a href="#" aria-label="View all featured software">See all</a></h2>
+                    <p class="section-subtitle">Discover our latest software and tools</p>
+                </div>
+                
+                <div class="products-grid">
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968520.png" alt="Adobe Photoshop with Firefly AI" width="120" height="120">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Photoshop with Firefly AI</h3>
+                            <p class="product-category">Design Software</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent Photoshop with Firefly AI">RENT</a>
+                        </div>
+                    </article>
+                    
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968525.png" alt="Adobe Premiere Pro" width="120" height="120">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Premiere Pro</h3>
+                            <p class="product-category">Video Editing</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent Premiere Pro">RENT</a>
+                </div>
+                    </article>
+                    
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5611/5611057.png" alt="AutoCAD 2023" width="120" height="120">
+                    </div>
+                        <div class="product-info">
+                            <h3 class="product-title">AutoCAD 2023</h3>
+                            <p class="product-category">CAD Software</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent AutoCAD 2023">RENT</a>
+                    </div>
+                    </article>
+                    
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968472.png" alt="Final Cut Pro X" width="120" height="120">
+                    </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Final Cut Pro X</h3>
+                            <p class="product-category">Video Editing</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent Final Cut Pro X">RENT</a>
+                    </div>
+                    </article>
+                </div>
+                </div>
+        </section>
+
+        <!-- Digital Assets Section -->
+        <section id="digital-assets" class="digital-assets-section" aria-labelledby="digital-assets-heading">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" id="digital-assets-heading">Digital Assets <a href="#" aria-label="View all digital assets">See all</a></h2>
+                </div>
+                <div class="products-grid">
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/5692/5692030.png" alt="Stock Photos icon" width="120" height="120">
+        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Stock Photos</h3>
+                            <p class="product-category">Image Collection</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent Stock Photos">RENT</a>
+        </div>
+                    </article>
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1179/1179120.png" alt="3D Models icon" width="120" height="120">
+        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">3D Models</h3>
+                            <p class="product-category">Design Assets</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent 3D Models">RENT</a>
+    </div>
+                    </article>
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2875/2875418.png" alt="Sound Effects icon" width="120" height="120">
+        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Sound Effects</h3>
+                            <p class="product-category">Audio Assets</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent Sound Effects">RENT</a>
+    </div>
+                    </article>
+                    <article class="product-card">
+                        <div class="product-image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2928/2928654.png" alt="Video Templates icon" width="120" height="120">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Video Templates</h3>
+                            <p class="product-category">Motion Graphics</p>
+                            <a href="product-details.html" class="rent-button" aria-label="Rent Video Templates">RENT</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Equipment Section -->
+        <section id="equipment" class="equipment-section" aria-labelledby="equipment-heading">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" id="equipment-heading">Equipment <a href="#" aria-label="View all equipment">See all</a></h2>
+                </div>
+                <div class="categories-row" tabindex="0" aria-label="Scrollable equipment categories, use arrow keys to navigate">
+                    <article class="equipment-card">
+                        <img src="https://images.unsplash.com/photo-1516724562728-afc824a36e84?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Y2FtZXJhfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="Professional camera equipment" width="250" height="200">
+                        <div class="category-overlay">
+                            <h3 class="category-title">Cameras</h3>
+                            <p class="category-desc">Professional photography equipment</p>
+                    </div>
+                    </article>
+                    <article class="equipment-card">
+                        <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c291bmQlMjBlcXVpcG1lbnR8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60" alt="Professional audio equipment" width="250" height="200">
+                        <div class="category-overlay">
+                            <h3 class="category-title">Audio Equipment</h3>
+                            <p class="category-desc">Microphones, mixers and more</p>
+                        </div>
+                    </article>
+                    <article class="equipment-card">
+                        <img src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bmV0d29ya2luZyUyMGVxdWlwbWVudHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" alt="Networking equipment" width="250" height="200">
+                        <div class="category-overlay">
+                            <h3 class="category-title">Networking</h3>
+                            <p class="category-desc">Routers, switches and servers</p>
+                        </div>
+                    </article>
+                    <article class="equipment-card">
+                        <img src="https://images.unsplash.com/photo-1605379399642-870262d3d051?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZGVza3RvcCUyMGNvbXB1dGVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="Desktop computers and workstations" width="250" height="200">
+                        <div class="category-overlay">
+                            <h3 class="category-title">Computers</h3>
+                            <p class="category-desc">Workstations and desktops</p>
+                    </div>
+                    </article>
+                </div>
+                    </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2097/2097276.png" alt="Rentify Logo" class="footer-logo-img" width="50" height="50">
+                    <p>Your digital rental marketplace</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>Categories</h3>
+                        <ul>
+                            <li><a href="video-editing.html">Video Editing</a></li>
+                            <li><a href="ai-tools.html">AI Tools</a></li>
+                            <li><a href="games.html">Gaming</a></li>
+                            <li><a href="music.html">Music</a></li>
+                            <li><a href="movies.html">Movies</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Account</h3>
+                        <ul>
+                            <li><a href="login.html">Login</a></li>
+                            <li><a href="login.html">Register</a></li>
+                            <li><a href="#">My Rentals</a></li>
+                            <li><a href="#">Wishlist</a></li>
+                            <li><a href="#">Settings</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h3>Information</h3>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-newsletter">
+                    <h3>Stay Updated</h3>
+                    <p>Subscribe to our newsletter for the latest additions and exclusive offers.</p>
+                    <form class="newsletter-form" aria-label="Newsletter subscription">
+                        <input type="email" placeholder="Your email address" aria-label="Your email address" required>
+                        <button type="submit" aria-label="Subscribe">Subscribe</button>
+            </form>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Rentify. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+                    </button>
+
+    <script src="js/script.js"></script>
+</body>
+</html> 
