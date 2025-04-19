@@ -1,5 +1,5 @@
 # RENTIFY - Revolutionizing Digital Rentals
-
+ 
 Hey there! Welcome to the Rentify project - a game-changer in how we access premium digital tools. We built this specially for the E-Hack-Round hackathon to solve a real problem we all face.
 
 ## The Big Idea
